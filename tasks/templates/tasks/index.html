@@ -7,6 +7,13 @@
 <body>
     <h1>TODO List</h1>
     
+    <p>ようこそ、{{ user.username }}さん！</p>
+    <form action="{% url 'logout' %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">ログアウト</button>
+    </form>
+    <hr>
+
     <form method="POST">
         {% csrf_token %}
         <input type="text" name="title" placeholder="新しいタスクを入力" required>
