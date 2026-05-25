@@ -8,12 +8,18 @@ from .models import Todo
 def index(request):
     if request.method == "POST":
         title = request.POST.get("title")
+        priority = request.POST.get("priority")
         if title:
-            Todo.objects.create(title=title)
+            # priorityが渡されていない場合はモデルのデフォルト値が使われます
+            Todo.objects.create(title=title, priority=priority or Todo.Priority.MIDDLE)
         return redirect("index")
     
     todos = Todo.objects.all()
-    return render(request, "tasks/index.html", {"todos": todos})
+    return render(request, "tasks/index.html", {
+        "todos": todos,
+        "priorities": Todo.Priority.choices
+    })
+
 
 @login_required
 def delete_todo(request, pk):
